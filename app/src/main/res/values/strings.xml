@@ -12,4 +12,11 @@
     <string name="address">Address</string>
     <string name="phonenumber">Phonenumber</string>
     <string name="email">Email</string>
+    <string name="transfer_to_someone_else_account">Transfer to someone else account</string>
+    <string name="choose_your_desired_action">Choose your desired action</string>
+    <string name="pay_bills">Pay bills</string>
+    <string name="reset_password">Reset password</string>
+    <string name="transfer_between_my_accounts">Transfer between my accounts</string>
+    <string name="create_a_new_account">Create a new account</string>
+    <string name="view_accounts">View accounts</string>
 </resources>
