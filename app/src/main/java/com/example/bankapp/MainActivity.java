@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null){
                     if (dataSnapshot.child("password").getValue().equals(password.getText().toString()) && dataSnapshot.hasChild("password")){
-                        Intent login = new Intent(getApplicationContext(), AccountOverview.class);
+                        Intent login = new Intent(getApplicationContext(), AccountMenu.class);
                         startActivity(login);
                     } else {
                         Toast.makeText(getApplicationContext(), "Incorrect login credentials, Try again", Toast.LENGTH_LONG).show();

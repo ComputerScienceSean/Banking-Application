@@ -19,4 +19,5 @@
     <string name="transfer_between_my_accounts">Transfer between my accounts</string>
     <string name="create_a_new_account">Create a new account</string>
     <string name="view_accounts">View accounts</string>
+    <string name="account_name">Account Name</string>
 </resources>

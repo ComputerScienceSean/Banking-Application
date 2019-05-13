@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -26,7 +27,7 @@ public class RegisterUser extends AppCompatActivity {
         init();
     }
 
-    public void init(){
+    public void init() {
         this.cpr = findViewById(R.id.cpr);
         this.firstname = findViewById(R.id.firstname);
         this.lastname = findViewById(R.id.lastname);
@@ -37,16 +38,17 @@ public class RegisterUser extends AppCompatActivity {
         this.database = FirebaseDatabase.getInstance();
     }
 
-    public void register(View view){
+    public void register(View view) {
         if (address.getText().toString().length() != 0 && email.getText().toString().length() != 0 && firstname.getText().toString().length() != 0 && lastname.getText().toString().length() != 0 && phonenumber.getText().toString().length() != 0) {
             if (password.getText().toString().length() >= 6) {
                 if (cpr.getText().toString().length() == 10) {
+
                     final DatabaseReference dbRef = database.getReference("users/" + cpr.getText().toString());
                     dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.getValue() == null) {
-                                User user = new User(
+                                final User user = new User(
                                         firstname.getText().toString(),
                                         lastname.getText().toString(),
                                         cpr.getText().toString(),
@@ -57,7 +59,34 @@ public class RegisterUser extends AppCompatActivity {
 
                                 dbRef.setValue(user);
 
-                                Intent accountOverviewIntent = new Intent(getApplicationContext(), AccountOverview.class);
+                                    Log.d("smag", "user smagt");
+                                final DatabaseReference nextNumber = database.getReference("nextNumber");
+                                nextNumber.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        Log.d("smag", "nextnumber listener called");
+
+                                        String next = dataSnapshot.getValue(String.class);
+
+                                        createAccounts(next, user.getCpr());
+                                        Log.d("smag", "user nextvalue called"+next);
+
+                                        Long nextAccNumber = Long.parseLong(next);
+                                        nextNumber.setValue("" + (nextAccNumber + 1));
+                                        Log.d("smag", "user smagasdasdt"+ nextAccNumber);
+
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
+                                Intent accountOverviewIntent = new Intent(getApplicationContext(), AccountMenu.class);
                                 startActivity(accountOverviewIntent);
                             }
 
@@ -78,4 +107,15 @@ public class RegisterUser extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please fill out all fields", Toast.LENGTH_LONG).show();
         }
     }
+
+    private void createAccounts(final String next, String cpr) {
+        Log.d("smag", "create acconuts called"+ next +"    " + cpr);
+        DatabaseReference ref = database.getReference("bankaccounts/" + next);
+        BankAccount bankAccount = new BankAccount("Default", 0, next);
+        ref.setValue(bankAccount);
+
+        DatabaseReference userRef = database.getReference("usersbankaccounts/" + cpr);
+        userRef.child(next).setValue("Default");
+    }
+
 }
