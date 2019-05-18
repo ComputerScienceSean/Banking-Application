@@ -35,15 +35,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.myViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull myViewHolder myViewHolder, int i) {
-       /* myViewHolder.courseTitle.setText(mData.get(i).getSubject());
-        myViewHolder.courseTitle.setOnClickListener((View) -> {
-            Intent accessCourse = new Intent(mContext, ShowCourseActivity.class);
+        myViewHolder.accountName.setText(mData.get(i).getTitle());
+       /* myViewHolder.accountName.setOnClickListener((View) -> {
+            Intent accessAccount = new Intent(mContext, ShowCourseActivity.class);
             accessCourse.putExtra("Course", mData.get(i));
             mContext.startActivity(accessCourse);
         });*/
-
-
-
 
     }
 
@@ -54,12 +51,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.myViewHolder> {
 
 
     public class myViewHolder extends RecyclerView.ViewHolder {
-        TextView courseTitle;
+        TextView accountName;
 
 
         public myViewHolder(View itemView){
             super(itemView);
-            courseTitle = itemView.findViewById(R.id.accountName);
+            accountName = itemView.findViewById(R.id.accountName);
 
 
 
