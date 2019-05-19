@@ -21,4 +21,10 @@
     <string name="view_accounts">View accounts</string>
     <string name="account_name">Account Name</string>
     <string name="accounts">Accounts:</string>
+    <string name="transfer">Transfer</string>
+    <string name="transfer_money">Transfer money</string>
+    <string name="choose_amount">Choose amount</string>
+    <string name="transfer_from">Transfer from:</string>
+    <string name="transfer_to">Transfer to:</string>
+    <string name="account_number">Account number</string>
 </resources>
