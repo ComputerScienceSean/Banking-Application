@@ -27,4 +27,6 @@
     <string name="transfer_from">Transfer from:</string>
     <string name="transfer_to">Transfer to:</string>
     <string name="account_number">Account number</string>
+    <string name="re_enter_password">Re-enter password</string>
+    <string name="new_password">New password</string>
 </resources>
