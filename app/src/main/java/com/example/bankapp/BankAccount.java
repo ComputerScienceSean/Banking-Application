@@ -6,6 +6,10 @@ public class BankAccount {
     private int balance;
     private String accNumber;
 
+    public BankAccount(){
+
+    }
+
     public BankAccount(String title, int balance) {
         this.title = title;
         this.balance = balance;
@@ -17,12 +21,9 @@ public class BankAccount {
         this.accNumber = accNumber;
     }
 
-    public String getAccNumber() {
-        return accNumber;
-    }
-
-    public void setAccNumber(String accNumber) {
-        this.accNumber = accNumber;
+    @Override
+    public String toString() {
+        return title + " - " + accNumber;
     }
 
     public String getTitle() {
@@ -39,5 +40,13 @@ public class BankAccount {
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    public String getAccNumber() {
+        return accNumber;
+    }
+
+    public void setAccNumber(String accNumber) {
+        this.accNumber = accNumber;
     }
 }

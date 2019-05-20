@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 
@@ -16,6 +18,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.myViewHolder> {
 
     Context mContext;
     List<BankAccount> mData;
+
 
 
     public Adapter(Context mContext, List<BankAccount> mData) {
@@ -36,11 +39,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.myViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull myViewHolder myViewHolder, int i) {
         myViewHolder.accountName.setText(mData.get(i).getTitle());
-       /* myViewHolder.accountName.setOnClickListener((View) -> {
-            Intent accessAccount = new Intent(mContext, ShowCourseActivity.class);
-            accessCourse.putExtra("Course", mData.get(i));
-            mContext.startActivity(accessCourse);
-        });*/
 
     }
 
@@ -57,9 +55,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.myViewHolder> {
         public myViewHolder(View itemView){
             super(itemView);
             accountName = itemView.findViewById(R.id.accountName);
-
-
-
 
         }
     }

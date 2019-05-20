@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     private EditText cpr, password;
     private FirebaseDatabase database;
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 if (dataSnapshot != null){
                     if (dataSnapshot.child("password").getValue().equals(password.getText().toString()) && dataSnapshot.hasChild("password")){
                         Intent login = new Intent(getApplicationContext(), AccountMenu.class);
+                        login.putExtra("CPR", cpr.getText().toString());
                         startActivity(login);
                     } else {
                         Toast.makeText(getApplicationContext(), "Incorrect login credentials, Try again", Toast.LENGTH_LONG).show();

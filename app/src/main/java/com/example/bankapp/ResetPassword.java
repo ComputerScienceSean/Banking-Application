@@ -1,5 +1,6 @@
 package com.example.bankapp;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,22 +28,13 @@ public class ResetPassword extends AppCompatActivity {
 
     public void updatePassword(View view){
         if(password.getText().toString().equals(passwordConfirm.getText().toString()) && password.getText().toString().length() >= 6){
-            final DatabaseReference dbref = database.getReference("users/");
-            dbref.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot != null) {
-                        User user = new User(/*userdata*/);
-                        dbref.setValue(user);
+            Intent getIntent = getIntent();
+            String userCPR = getIntent.getStringExtra("CPR");
+            DatabaseReference dbref = database.getReference("users/" + userCPR + "/password");
+            dbref.setValue(passwordConfirm.getText().toString());
+            Intent returnToMenu = new Intent(getApplicationContext(), AccountMenu.class);
+            startActivity(returnToMenu);
 
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
         } else {
             Toast.makeText(getApplicationContext(), "The password is either too short or doesn't match. It must be atleast 6 characters!", Toast.LENGTH_LONG).show();
         }

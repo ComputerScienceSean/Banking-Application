@@ -19,6 +19,7 @@ public class RegisterUser extends AppCompatActivity {
 
     private EditText cpr, firstname, lastname, phonenumber, email, address, password;
     private FirebaseDatabase database;
+    public static final String TAG = "REGISTERUSERTAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,22 +60,22 @@ public class RegisterUser extends AppCompatActivity {
 
                                 dbRef.setValue(user);
 
-                                    Log.d("smag", "user smagt");
+                                    Log.d(TAG, "user added");
                                 final DatabaseReference nextNumber = database.getReference("nextNumber");
                                 nextNumber.addListenerForSingleValueEvent(new ValueEventListener() {
 
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        Log.d("smag", "nextnumber listener called");
+                                        Log.d(TAG, "nextnumber listener called");
 
                                         String next = dataSnapshot.getValue(String.class);
 
                                         createAccounts(next, user.getCpr());
-                                        Log.d("smag", "user nextvalue called"+next);
+                                        Log.d(TAG, "user nextvalue called"+next);
 
                                         Long nextAccNumber = Long.parseLong(next);
-                                        nextNumber.setValue("" + (nextAccNumber + 1));
-                                        Log.d("smag", "user smagasdasdt"+ nextAccNumber);
+                                        nextNumber.setValue("" + (nextAccNumber + 3));
+                                        Log.d(TAG, "user "+ nextAccNumber);
 
 
                                     }
@@ -85,9 +86,10 @@ public class RegisterUser extends AppCompatActivity {
                                     }
                                 });
 
-
                                 Intent accountOverviewIntent = new Intent(getApplicationContext(), AccountMenu.class);
                                 startActivity(accountOverviewIntent);
+                            } else{
+                                Toast.makeText(getApplicationContext(), "This CPR is already registered, sure you don't have an account already?", Toast.LENGTH_LONG);
                             }
 
                         }
@@ -109,13 +111,21 @@ public class RegisterUser extends AppCompatActivity {
     }
 
     private void createAccounts(final String next, String cpr) {
-        Log.d("smag", "create acconuts called"+ next +"    " + cpr);
-        DatabaseReference ref = database.getReference("bankaccounts/" + next);
-        BankAccount bankAccount = new BankAccount("Default", 0, next);
-        ref.setValue(bankAccount);
+        Long nextNumber = Long.parseLong(next);
+        Log.d(TAG, "create accounts called"+ next +"    " + cpr);
+        DatabaseReference ref = database.getReference("bankaccounts/");
+        BankAccount defaultAccount = new BankAccount("Default", 0, "" + (nextNumber + 1));
+        BankAccount budgetAccount = new BankAccount("Budget", 0, "" + (nextNumber + 2));
+        BankAccount pensionAccount = new BankAccount("Pension", 0, "" + (nextNumber + 3));
+        ref.child("" + (nextNumber + 1)).setValue(defaultAccount);
+        ref.child("" + (nextNumber + 2)).setValue(budgetAccount);
+        ref.child("" + (nextNumber + 3)).setValue(pensionAccount);
 
         DatabaseReference userRef = database.getReference("usersbankaccounts/" + cpr);
-        userRef.child(next).setValue("Default");
+        userRef.child("" + (nextNumber + 1)).setValue("Default Account");
+        userRef.child("" + (nextNumber + 2)).setValue("Budget Account");
+        userRef.child("" + (nextNumber + 3)).setValue("Pension Account");
+
     }
 
 }

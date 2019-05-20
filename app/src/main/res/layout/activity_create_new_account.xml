@@ -8,11 +8,11 @@
     tools:context=".CreateNewAccount">
 
     <TextView
-        android:id="@+id/payBillTitle"
+        android:id="@+id/createNewAccTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="@string/pay_bills"
+        android:text="@string/create_a_new_account"
         android:textColor="#F9FAF9"
         android:textSize="24sp"
         app:fontFamily="serif"

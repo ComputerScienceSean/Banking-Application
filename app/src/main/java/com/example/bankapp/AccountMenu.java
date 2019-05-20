@@ -9,17 +9,23 @@ import android.widget.Button;
 public class AccountMenu extends AppCompatActivity {
 
     private Button accountsButton, transferOwnAccButton, transferOtherAccButton, createNewAccButton, payBillsButton, resetPassButton;
+    String userCPR = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_menu);
         init();
+
     }
 
     public void seeAccounts(View view){
+
+
         Intent seeAccounts = new Intent(getApplicationContext(), AccountOverview.class);
+        seeAccounts.putExtra("CPR", userCPR);
         startActivity(seeAccounts);
+
     }
 
     public void setTransferOwnAccButton(View view){
@@ -43,7 +49,10 @@ public class AccountMenu extends AppCompatActivity {
     }
 
     public void setResetPassButton(View view){
+
+
         Intent setResetPassButton = new Intent(getApplicationContext(), ResetPassword.class);
+        setResetPassButton.putExtra("CPR", userCPR);
         startActivity(setResetPassButton);
     }
 
@@ -55,5 +64,8 @@ public class AccountMenu extends AppCompatActivity {
         this.createNewAccButton = findViewById(R.id.createNewAccButton);
         this.payBillsButton = findViewById(R.id.payBillsButton);
         this.resetPassButton = findViewById(R.id.resetPassButton);
+        Intent getIntent = getIntent();
+        this.userCPR = getIntent.getStringExtra("CPR");
+
     }
 }
