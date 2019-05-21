@@ -1,6 +1,5 @@
 package com.example.bankapp;
 
-import android.accounts.Account;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.ArrayAdapter;
+
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,17 +15,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+
 
 public class AccountOverview extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
     private FirebaseDatabase database;
     private static ArrayList<BankAccount> accountsList = new ArrayList<>();
-    private Adapter adapter;
 
 
     @Override
@@ -35,8 +30,7 @@ public class AccountOverview extends AppCompatActivity {
         setContentView(R.layout.activity_account_overview);
         init();
         loadAccounts();
-
-
+        Log.d("LLL", ""+accountsList);
     }
 
 
@@ -60,7 +54,6 @@ public class AccountOverview extends AppCompatActivity {
                             BankAccount bankAccount = dataSnapshot.getValue(BankAccount.class);
                             accountsList.add(bankAccount);
                             Log.d("OVERVIEW", "this is the array" + accountsList);
-                            adapter.notifyDataSetChanged();
 
                         }
 
@@ -70,8 +63,6 @@ public class AccountOverview extends AppCompatActivity {
                         }
                     });
                 }
-
-
             }
 
             @Override
@@ -79,15 +70,14 @@ public class AccountOverview extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     public void init() {
-        this.recyclerView = findViewById(R.id.recyclerView);
-        this.adapter = new Adapter(getApplicationContext(), accountsList);
+        //this.recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, accountsList);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         this.database = FirebaseDatabase.getInstance();
     }
