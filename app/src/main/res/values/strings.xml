@@ -29,4 +29,8 @@
     <string name="account_number">Account number</string>
     <string name="re_enter_password">Re-enter password</string>
     <string name="new_password">New password</string>
+    <string name="approve">Approve</string>
+    <string name="approve_transaction">Approve Transaction</string>
+    <string name="below_you_will_find_your_approval_id_which_you_will_need_to_enter_in_the_box_below">Below you will find your Approval ID which you will need to enter in the box below</string>
+    <string name="approval_id">Approval ID</string>
 </resources>

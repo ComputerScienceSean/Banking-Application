@@ -1,7 +1,9 @@
-package com.example.bankapp;
+package com.example.bankapp.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.bankapp.R;
 
 public class TransferOtherAccount extends AppCompatActivity {
 

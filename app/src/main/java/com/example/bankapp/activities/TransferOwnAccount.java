@@ -1,14 +1,17 @@
-package com.example.bankapp;
+package com.example.bankapp.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
 
-
+import com.example.bankapp.entities.BankAccount;
+import com.example.bankapp.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,22 +20,26 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+public class TransferOwnAccount extends AppCompatActivity {
 
-public class AccountOverview extends AppCompatActivity {
-
+    private Spinner accountFrom, accountTo;
+    private EditText transferAmount;
     private FirebaseDatabase database;
-    private static ArrayList<BankAccount> accountsList = new ArrayList<>();
+    ArrayList<BankAccount> accounts = new ArrayList<>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_overview);
+        setContentView(R.layout.activity_transfer_own_account);
         init();
         loadAccounts();
-        Log.d("LLL", ""+accountsList);
+
     }
 
+    public void transferMoney(View view) {
+        Log.d("grinern", "olool"+accountFrom.getSelectedItem().toString());
+    }
 
     public void loadAccounts() {
         Intent getIntent = getIntent();
@@ -41,20 +48,15 @@ public class AccountOverview extends AppCompatActivity {
         dbref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
-
-                    DatabaseReference bankAccounts = database.getReference("bankaccounts/" + data.getKey());
-                    Log.d("OVERVIEW", "key " + data.getKey());
-                    Log.d("OVERVIEW", "value " + data.getValue());
-                    bankAccounts.addListenerForSingleValueEvent(new ValueEventListener() {
+                    DatabaseReference bankaccounts = database.getReference("bankaccounts/" + data.getKey());
+                    Log.d("grinern", data.getKey());
+                    bankaccounts.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Log.d("OVERVIEW", "asdasdas" + dataSnapshot.getValue());
                             BankAccount bankAccount = dataSnapshot.getValue(BankAccount.class);
-                            accountsList.add(bankAccount);
-                            Log.d("OVERVIEW", "this is the array" + accountsList);
-
+                            accounts.add(bankAccount);
+                            Log.d("grinern", ""+accounts);
                         }
 
                         @Override
@@ -63,6 +65,14 @@ public class AccountOverview extends AppCompatActivity {
                         }
                     });
                 }
+                Log.d("grinern", ""+accounts);
+
+                ArrayAdapter<BankAccount> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, accounts);
+                accountFrom.setAdapter(adapter);
+                accountTo.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
+
             }
 
             @Override
@@ -70,15 +80,15 @@ public class AccountOverview extends AppCompatActivity {
 
             }
         });
+
     }
 
     public void init() {
-        //this.recyclerView = findViewById(R.id.recyclerView);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, accountsList);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        this.accountFrom = findViewById(R.id.transferFromSpinner);
+        this.accountTo = findViewById(R.id.transferToSpinner);
+        this.transferAmount = findViewById(R.id.transferAmount);
         this.database = FirebaseDatabase.getInstance();
+
+
     }
 }
